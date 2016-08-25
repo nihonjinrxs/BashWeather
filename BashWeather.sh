@@ -15,17 +15,17 @@ function get_symbol {
   case "$@" in
 
     sun )        #utf8 hex: \xe2\x98\x80 | unicode: U+2600
-                 OUT=$'\342\230\200';;
+                 OUT="☀️ ";;    #  $'\342\230\200';;
     cloud )      #utf8 hex: \xe2\x98\x81 | unicode: U+2601
-                 OUT=$'\342\230\201';;
+                 OUT="☁️ ";;    #  $'\342\230\201';;
     umbrella )   #utf8 hex: \xe2\x98\x82 | unicode: U+2602
-                 OUT=$'\342\230\202';;
+                 OUT="☂️ ";;    #  $'\342\230\202';;
     snowman )    #utf8 hex: \xe2\x98\x83 | unicode: U+2603
-                 OUT=$'\342\230\203';;
+                 OUT="❄️ ";;    #  $'\342\230\203';;
     moon )       #utf8 hex: \xe2\x98\xbd | unicode: U+263D
-                 OUT=$'\342\230\275';;
+                 OUT="🌙 ";;   #  $'\342\230\275';;
     umbrellarain) #utf8 hex: \xe2\x98\x94 | unicode: U+2614
-                 OUT=$'\342\230\224';;
+                 OUT="⛈ ";;   #  $'\342\230\224';;
 
     * )   echo "Invalid option provided to get_symbol" >&2
           return 1
@@ -67,7 +67,7 @@ function getResponse {
         echo "check_internet response = $(check_internet)"
         if [[ $? -eq 0 ]] ; then
           read LAT LON <<<$($(sourceDirectory)/RunLocateMe -f "{LAT} {LON}")
-          echo "<<DEBUG>>\nLAT = $LAT ; LON = $LON\n<<DEBUG>>"
+          #echo "<<DEBUG>>\nLAT = $LAT ; LON = $LON\n<<DEBUG>>"
           local RESPONSEHOLDER=$(curl --connect-timeout $t -s "http://api.openweathermap.org/data/2.5/weather?lat=$LAT&lon=$LON&appid=$OPENWEATHERMAP_APIKEY" 2>/dev/null)
         fi
       fi
@@ -193,7 +193,7 @@ EOF
   fi
 
   if [ "$ASSIGN_AGAIN" = "true" ] ; then
-    echo "<<DEBUG>>\n$RESPONSEHOLDER\n<<DEBUG>>"
+    #echo "<<DEBUG>>\n$RESPONSEHOLDER\n<<DEBUG>>"
     local WEATHERCODE=$(echo "$RESPONSEHOLDER" | grep -o -e '"weather":[^[]*\[[^{]*{[^}]*"id": *[0-9]\{1,3\}' | tail -c 4)
     local SUNRISE=$(echo "$RESPONSEHOLDER" | grep -o -e '"sunrise":[0-9]\{10\}' | tail -c 11)
     local SUNSET=$(echo "$RESPONSEHOLDER" | grep -o -e '"sunset":[0-9]\{10\}' | tail -c 11)
